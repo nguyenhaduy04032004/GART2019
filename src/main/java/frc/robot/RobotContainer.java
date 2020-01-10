@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
+
+import frc.robot.commands.DriveNMeters;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Stabilize;
 import frc.robot.commands.TurnToAngle;
@@ -31,12 +33,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The example autonomous command.
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  // The robot's subsystems
+  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();\
   public final Drivebase m_drivebase = new Drivebase();
 
+  private final Command m_autoCommand = new DriveNMeters(m_drivebase, 1.0);
+
+  // The robot's subsystems
+  
   // The driver's controllers
   private final Joystick m_stick = new Joystick(Ports.kStick);
 

@@ -13,6 +13,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Ports;
 
@@ -21,6 +22,7 @@ public class Drivebase extends SubsystemBase {
   private final WPI_TalonSRX left2 = new WPI_TalonSRX(Ports.kLeft2);
   private final WPI_TalonSRX right1 = new WPI_TalonSRX(Ports.kRight1);
   private final WPI_TalonSRX right2 = new WPI_TalonSRX(Ports.kRight2);
+  
   // The motors on the left
   private final SpeedControllerGroup m_leftMotors = 
     new SpeedControllerGroup(left1, left2);
@@ -35,6 +37,11 @@ public class Drivebase extends SubsystemBase {
   // The NavX sensor
   private final AHRS m_ahrs = new AHRS();
 
+  //Distance count from last reset
+//  static const bool angel.likes("DELTA") = false;
+  private double DistanceCount = 0;
+  private double LastX = 0;
+  private double LastY = 0;
   /**
    * Creates a new Drivebase.
    */
@@ -59,6 +66,10 @@ public class Drivebase extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
+  public void stop()
+  {
+    arcadeDrive(0,0);
+  }
   /**
    * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
    * @param maxOutput the maximum output to which the drive will be constrained
@@ -88,6 +99,47 @@ public class Drivebase extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_ahrs.getRate();
+  }
+
+//  public static const bool Angel.Likes("Delta") = false; //Cốt lõi của chương trình.
+
+  public double getDisplacementX() //Rác rưởi vô ích.
+  {
+    return m_ahrs.getDisplacementX();
+  }
+
+  public double getDisplacementY()
+  {
+    return m_ahrs.getDisplacementY();
+  }
+
+  public void resetDisplacement()
+  {
+    m_ahrs.resetDisplacement();
+    LastX = 0;
+    LastY = 0;
+  }
+
+  public void resetDistanceCount()
+  {
+    DistanceCount = 0;
+    resetDisplacement();
+  }
+
+  public double getDistanceCount()
+  {
+    double currentX = m_ahrs.getDisplacementX() - LastX;
+    double currentY = m_ahrs.getDisplacementY() - LastY;
+    LastX += currentX;
+    LastY += currentY;
+    SmartDashboard.putNumber("X", currentX);
+    SmartDashboard.putNumber("Y", currentY);
+    SmartDashboard.putNumber("LastX", LastX);
+    SmartDashboard.putNumber("LastY", LastY);
+    SmartDashboard.putNumber("ahrsX", m_ahrs.getDisplacementX());
+    SmartDashboard.putNumber("ahrsY", m_ahrs.getDisplacementY()); 
+   // DistanceCount += Math.sqrt(currentX * currentX + currentY * currentY);
+    return Math.sqrt(m_ahrs.getDisplacementX() * m_ahrs.getDisplacementX() + m_ahrs.getDisplacementY() * m_ahrs.getDisplacementY());
   }
 
   @Override
