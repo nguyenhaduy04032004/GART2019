@@ -35,8 +35,8 @@ public final class Constants {
         public static final double kStableI = 0.5;
         public static final double kStableD = 0;
 
-        public static final double kPositionTolerance = 1;
-        public static final double kVelocityTolerance = 1;
+        public static final double kPositionTolerance = 0;
+        public static final double kVelocityTolerance = 0;
     }
     public static final class Stick {
         public static final int kX = 3;

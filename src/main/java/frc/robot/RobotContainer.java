@@ -54,7 +54,7 @@ public class RobotContainer {
       new RunCommand(() -> m_drivebase
         .arcadeDrive(-m_stick.getRawAxis(Stick.kLYaxis),
                     m_stick.getRawAxis(Stick.kRXaxis)), m_drivebase));
-    
+    SmartDashboard.putNumber("Difference", 0);
     SmartDashboard.putNumber("target angle", 0);
     SmartDashboard.putNumber("P", 0);
     SmartDashboard.putNumber("I", 0);
@@ -75,7 +75,7 @@ public class RobotContainer {
     
     // Turn to 90 degrees when the 'B' button is pressed, with a 5 seconds timeout
     new JoystickButton(m_stick, Stick.kB)
-      .whenPressed(new TurnToAngle(SmartDashboard.getNumber("target angle", 0), m_drivebase).withTimeout(5));
+      .whenPressed(new TurnToAngle(90, m_drivebase).withTimeout(5));
 
     // Turn to -90 degrees when the 'X' button is pressed, with a 5 seconds timeout
     // new JoystickButton(m_stick, Stick.kX)

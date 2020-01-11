@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,12 +34,14 @@ public class Drivebase extends SubsystemBase {
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
   // The NavX sensor
-  private final AHRS m_ahrs = new AHRS();
+  private AHRS m_ahrs;
+  
 
   /**
    * Creates a new Drivebase.
    */
   public Drivebase() {
+    m_ahrs = new AHRS();
     setNeutralMode(NeutralMode.Brake);
     setMaxOutput(0.4);
   }
